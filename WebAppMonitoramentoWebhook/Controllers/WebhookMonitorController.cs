@@ -16,20 +16,19 @@ public class WebhookMonitorController : ControllerBase
     }
 
     [HttpGet]
-    public object? Get()
+    public object? GetLastEvent()
     {
-        _logger.LogInformation("Último evento recebido: " +
+        _logger.LogInformation($"{nameof(GetLastEvent)} | Último evento recebido: " +
             JsonSerializer.Serialize(_lastEvent,
                 options: new() { WriteIndented = true }));
-        _logger.LogInformation(JsonSerializer.Serialize(_lastEvent));
         return _lastEvent;
     }
 
     [HttpPost]
-    public IActionResult Post(object data)
+    public IActionResult PostEvent(object data)
     {
         _lastEvent = data;
-        _logger.LogInformation("Notificação recebida: " +
+        _logger.LogInformation($"{nameof(PostEvent)} | Notificação recebida: " +
             JsonSerializer.Serialize(data,
                 options: new() { WriteIndented = true }));
         return Ok();
